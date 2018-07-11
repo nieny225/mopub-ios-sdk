@@ -6,7 +6,6 @@
 //
 
 #import "MPActivityViewControllerHelper.h"
-#import "MPInstanceProvider.h"
 
 /**
  * MPActivityItemProviderWithSubject subclasses UIActivityItemProvider
@@ -90,8 +89,7 @@
                 [self.delegate activityViewControllerWillPresent];
             }
 
-            UIUserInterfaceIdiom userInterfaceIdiom = [[[MPCoreInstanceProvider sharedProvider]
-                                                        sharedCurrentDevice] userInterfaceIdiom];
+            UIUserInterfaceIdiom userInterfaceIdiom = UIDevice.currentDevice.userInterfaceIdiom;
             // iPad must present as popover on iOS >= 8
             if (userInterfaceIdiom == UIUserInterfaceIdiomPad) {
                 if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {

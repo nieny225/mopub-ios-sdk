@@ -7,13 +7,14 @@
 
 #import "MPAdConfiguration.h"
 
+#import "MOPUBExperimentProvider.h"
+#import "MPAdServerKeys.h"
+#import "MPConsentManager.h"
 #import "MPConstants.h"
 #import "MPLogging.h"
-#import "math.h"
-#import "NSJSONSerialization+MPAdditions.h"
 #import "MPRewardedVideoReward.h"
-#import "MOPUBExperimentProvider.h"
 #import "MPViewabilityTracker.h"
+#import "NSJSONSerialization+MPAdditions.h"
 #import "NSString+MPAdditions.h"
 
 #if MP_HAS_NATIVE_PACKAGE
@@ -30,13 +31,11 @@ NSString * const kCustomEventClassDataHeaderKey = @"X-Custom-Event-Class-Data";
 NSString * const kFailUrlHeaderKey = @"X-Failurl";
 NSString * const kHeightHeaderKey = @"X-Height";
 NSString * const kImpressionTrackerHeaderKey = @"X-Imptracker";
-NSString * const kInterceptLinksHeaderKey = @"X-Interceptlinks";
 NSString * const kLaunchpageHeaderKey = @"X-Launchpage";
 NSString * const kNativeSDKParametersHeaderKey = @"X-Nativeparams";
 NSString * const kNetworkTypeHeaderKey = @"X-Networktype";
 NSString * const kRefreshTimeHeaderKey = @"X-Refreshtime";
 NSString * const kAdTimeoutHeaderKey = @"X-AdTimeout";
-NSString * const kScrollableHeaderKey = @"X-Scrollable";
 NSString * const kWidthHeaderKey = @"X-Width";
 NSString * const kDspCreativeIdKey = @"X-DspCreativeid";
 NSString * const kPrecacheRequiredKey = @"X-PrecacheRequired";
@@ -132,9 +131,6 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
         self.interceptURLPrefix = [self URLFromHeaders:headers
                                                 forKey:kLaunchpageHeaderKey];
 
-        NSNumber *shouldInterceptLinks = [headers objectForKey:kInterceptLinksHeaderKey];
-        self.shouldInterceptLinks = shouldInterceptLinks ? [shouldInterceptLinks boolValue] : YES;
-        self.scrollable = [[headers objectForKey:kScrollableHeaderKey] boolValue];
         self.refreshInterval = [self refreshIntervalFromHeaders:headers];
         self.adTimeoutInterval = [self timeIntervalFromHeaders:headers forKey:kAdTimeoutHeaderKey];
 
@@ -232,6 +228,14 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
             MPViewabilityOption vendorsToDisable = (MPViewabilityOption)([disabledViewabilityVendors integerValue]);
             [MPViewabilityTracker disableViewability:vendorsToDisable];
         }
+
+        // consent
+        [[MPConsentManager sharedManager] forceStatusShouldForceExplicitNo:[headers[kForceExplicitNoKey] boolValue]
+                                                   shouldInvalidateConsent:[headers[kInvalidateConsentKey] boolValue]
+                                                    shouldReacquireConsent:[headers[kReacquireConsentKey] boolValue]
+                                              shouldForceGDPRApplicability:[headers[kForceGDPRAppliesKey] boolValue]
+                                                       consentChangeReason:headers[kConsentChangedReasonKey]
+                                                   shouldBroadcast:YES];
     }
     return self;
 }

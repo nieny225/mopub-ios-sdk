@@ -10,7 +10,6 @@
 #import "MPAdServerCommunicator.h"
 #import "MPAdServerURLBuilder.h"
 #import "MPRewardedVideoAdapter.h"
-#import "MPInstanceProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPRewardedVideoError.h"
 #import "MPLogging.h"
@@ -33,7 +32,7 @@
 {
     if (self = [super init]) {
         _adUnitID = [adUnitID copy];
-        _communicator = [[MPCoreInstanceProvider sharedProvider] buildMPAdServerCommunicatorWithDelegate:self];
+        _communicator = [[MPAdServerCommunicator alloc] initWithDelegate:self];
         _delegate = delegate;
     }
 
@@ -74,7 +73,7 @@
     return [self.adapter hasAdAvailable];
 }
 
-- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location customerId:(NSString *)customerId
+- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords userDataKeywords:(NSString *)userDataKeywords location:(CLLocation *)location customerId:(NSString *)customerId
 {
     // We will just tell the delegate that we have loaded an ad if we already have one ready. However, if we have already
     // played a video for this ad manager, we will go ahead and request another ad from the server so we aren't potentially
@@ -89,8 +88,8 @@
         self.customerId = customerId;
         [self loadAdWithURL:[MPAdServerURLBuilder URLWithAdUnitID:self.adUnitID
                                                          keywords:keywords
-                                                         location:location
-                                                          testing:NO]];
+                                                 userDataKeywords:userDataKeywords
+                                                         location:location]];
     }
 }
 
@@ -173,9 +172,9 @@
 
 #pragma mark - MPAdServerCommunicatorDelegate
 
-- (void)communicatorDidReceiveAdConfiguration:(MPAdConfiguration *)configuration
+- (void)communicatorDidReceiveAdConfigurations:(NSArray<MPAdConfiguration *> *)configurations
 {
-    self.configuration = configuration;
+    self.configuration = configurations.firstObject;
 
     MPLogInfo(@"Rewarded video ad is fetching ad network type: %@", self.configuration.networkType);
 
@@ -195,7 +194,7 @@
         return;
     }
 
-    MPRewardedVideoAdapter *adapter = [[MPInstanceProvider sharedProvider] buildRewardedVideoAdapterWithDelegate:self];
+    MPRewardedVideoAdapter *adapter = [[MPRewardedVideoAdapter alloc] initWithDelegate:self];
 
     if (!adapter) {
         NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorUnknown userInfo:nil];
@@ -204,7 +203,7 @@
     }
 
     self.adapter = adapter;
-    [self.adapter getAdWithConfiguration:configuration];
+    [self.adapter getAdWithConfiguration:self.configuration];
 }
 
 - (void)communicatorDidFailWithError:(NSError *)error

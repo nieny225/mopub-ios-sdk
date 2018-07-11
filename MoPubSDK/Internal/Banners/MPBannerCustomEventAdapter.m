@@ -9,7 +9,7 @@
 
 #import "MPAdConfiguration.h"
 #import "MPBannerCustomEvent.h"
-#import "MPInstanceProvider.h"
+#import "MPCoreInstanceProvider.h"
 #import "MPLogging.h"
 #import "MPAdImpressionTimer.h"
 #import "MPBannerCustomEvent+Internal.h"
@@ -66,9 +66,10 @@
         return;
     }
 
+
     self.bannerCustomEvent = customEvent;
     self.bannerCustomEvent.delegate = self;
-    [self.bannerCustomEvent requestAdWithSize:size customEventInfo:configuration.customEventClassData];
+    [self.bannerCustomEvent requestAdWithSize:size customEventInfo:configuration.customEventClassData adMarkup:configuration.advancedBidPayload];
 }
 
 - (void)rotateToOrientation:(UIInterfaceOrientation)newOrientation
@@ -192,6 +193,9 @@
     [self.bannerCustomEvent trackMPXAndThirdPartyImpressions];
     // Start viewability tracking
     [self.bannerCustomEvent startViewabilityTracker];
+
+    // Notify delegate that an impression tracker was fired
+    [self.delegate adapter:self didTrackImpressionForAd:adView];
 }
 
 @end

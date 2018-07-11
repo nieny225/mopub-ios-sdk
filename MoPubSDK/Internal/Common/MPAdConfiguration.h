@@ -27,13 +27,11 @@ extern NSString * const kCustomEventClassDataHeaderKey;
 extern NSString * const kFailUrlHeaderKey;
 extern NSString * const kHeightHeaderKey;
 extern NSString * const kImpressionTrackerHeaderKey;
-extern NSString * const kInterceptLinksHeaderKey;
 extern NSString * const kLaunchpageHeaderKey;
 extern NSString * const kNativeSDKParametersHeaderKey;
 extern NSString * const kNetworkTypeHeaderKey;
 extern NSString * const kRefreshTimeHeaderKey;
 extern NSString * const kAdTimeoutHeaderKey;
-extern NSString * const kScrollableHeaderKey;
 extern NSString * const kWidthHeaderKey;
 extern NSString * const kDspCreativeIdKey;
 extern NSString * const kPrecacheRequiredKey;
@@ -72,8 +70,6 @@ extern NSString * const kBannerImpressionMinPixelHeaderKey;
 @property (nonatomic, strong) NSURL *impressionTrackingURL;
 @property (nonatomic, strong) NSURL *failoverURL;
 @property (nonatomic, strong) NSURL *interceptURLPrefix;
-@property (nonatomic, assign) BOOL shouldInterceptLinks;
-@property (nonatomic, assign) BOOL scrollable;
 @property (nonatomic, assign) NSTimeInterval refreshInterval;
 @property (nonatomic, assign) NSTimeInterval adTimeoutInterval;
 @property (nonatomic, copy) NSData *adResponseData;
@@ -100,6 +96,7 @@ extern NSString * const kBannerImpressionMinPixelHeaderKey;
 @property (nonatomic, copy) NSString *rewardedVideoCompletionUrl;
 @property (nonatomic, assign) NSTimeInterval rewardedPlayableDuration;
 @property (nonatomic, assign) BOOL rewardedPlayableShouldRewardOnClick;
+@property (nonatomic, copy) NSString *advancedBidPayload;
 
 
 // viewable impression tracking experiment

@@ -45,6 +45,10 @@ static NSString * const kCloseButtonXImageName = @"MPCloseButtonX.png";
     self.view.backgroundColor = [UIColor blackColor];
 }
 
+- (BOOL)prefersHomeIndicatorAutoHidden {
+    return YES;
+}
+
 #pragma mark - Public
 
 - (void)presentInterstitialFromViewController:(UIViewController *)controller
@@ -256,21 +260,6 @@ static NSString * const kCloseButtonXImageName = @"MPCloseButtonX.png";
         return UIInterfaceOrientationLandscapeLeft;
     } else {
         return UIInterfaceOrientationLandscapeRight;
-    }
-}
-
-#pragma mark - Autorotation (before iOS 6.0)
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if (_orientationType == MPInterstitialOrientationTypePortrait) {
-        return (interfaceOrientation == UIInterfaceOrientationPortrait ||
-                interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
-    } else if (_orientationType == MPInterstitialOrientationTypeLandscape) {
-        return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-                interfaceOrientation == UIInterfaceOrientationLandscapeRight);
-    } else {
-        return YES;
     }
 }
 
