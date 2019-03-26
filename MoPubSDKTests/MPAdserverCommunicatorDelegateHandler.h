@@ -1,8 +1,9 @@
 //
 //  MPAdserverCommunicatorDelegateHandler.h
-//  MoPubSDKTests
 //
-//  Copyright © 2017 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -12,5 +13,7 @@
 
 @property (nonatomic, copy) void (^communicatorDidReceiveAdConfigurations)(NSArray<MPAdConfiguration *> *configurations);
 @property (nonatomic, copy) void (^communicatorDidFailWithError)(NSError *error);
+@property (nonatomic, copy) MPAdType (^adTypeForAdServerCommunicator)(MPAdServerCommunicator *adServerCommunicator);
+@property (nonatomic, copy) NSString * (^adUnitIdForAdServerCommunicator)(MPAdServerCommunicator *adServerCommunicator);
 
 @end

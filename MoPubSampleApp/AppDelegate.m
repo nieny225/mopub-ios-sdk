@@ -1,8 +1,9 @@
 //
 //  AppDelegate.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "AppDelegate.h"
@@ -41,8 +42,7 @@
 
     MPMoPubConfiguration * sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization: @"0ac59b0996d947309c33f59d6676399f"];
     sdkConfig.globalMediationSettings = @[];
-    sdkConfig.mediatedNetworks = @[];
-    sdkConfig.advancedBidders = nil;
+    sdkConfig.loggingLevel = MPBLogLevelInfo;
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
         NSLog(@"SDK initialization complete");
     }];

@@ -1,6 +1,9 @@
 //
 //  MPNativeAdConstants.h
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -33,3 +36,7 @@ extern NSString *const kPrivacyIconTapDestinationURL;
 extern NSString *const kImpressionTrackerURLsKey;
 extern NSString *const kDefaultActionURLKey;
 extern NSString *const kClickTrackerURLKey;
+
+extern NSString *const kNativeAdUnitId;
+extern NSString *const kNativeAdDspCreativeId;
+extern NSString *const kNativeAdDspName;

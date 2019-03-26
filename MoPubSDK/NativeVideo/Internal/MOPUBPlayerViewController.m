@@ -1,6 +1,9 @@
 //
 //  MOPUBPlayerViewController.m
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -157,7 +160,7 @@ static const double kVideoFinishedBufferingAllowedError = 0.1;
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.mediaURL options:nil];
 
     if (asset == nil) {
-        MPLogError(@"failed to initialize video asset for URL %@", self.mediaURL);
+        MPLogInfo(@"failed to initialize video asset for URL %@", self.mediaURL);
         [self handleVideoInitError];
 
         return;
@@ -192,7 +195,7 @@ static const double kVideoFinishedBufferingAllowedError = 0.1;
     NSError *error = nil;
 
     if (!asset.playable) {
-        MPLogError(@"asset is not playable");
+        MPLogInfo(@"asset is not playable");
         [self handleVideoInitError];
 
         return;
@@ -200,7 +203,7 @@ static const double kVideoFinishedBufferingAllowedError = 0.1;
 
     AVKeyValueStatus status = [asset statusOfValueForKey:kTracksKey error:&error];
     if (status == AVKeyValueStatusFailed) {
-        MPLogError(@"AVKeyValueStatusFailed");
+        MPLogInfo(@"AVKeyValueStatusFailed");
         [self handleVideoInitError];
 
         return;
@@ -370,7 +373,7 @@ static const double kVideoFinishedBufferingAllowedError = 0.1;
 {
     if (object == self.avPlayer) {
         if (self.avPlayer.status == AVPlayerItemStatusFailed) {
-            MPLogError(@"avPlayer status failed");
+            MPLogInfo(@"avPlayer status failed");
             [self.vastTracking handleVideoEvent:MPVideoEventTypeError videoTimeOffset:self.avPlayer.currentPlaybackTime];
         }
     } else if (object == self.playerItem) {
@@ -397,7 +400,7 @@ static const double kVideoFinishedBufferingAllowedError = 0.1;
                     break;
                 case AVPlayerItemStatusFailed:
                 {
-                    MPLogError(@"avPlayerItem status failed");
+                    MPLogInfo(@"avPlayerItem status failed");
                     [self.vastTracking handleVideoEvent:MPVideoEventTypeError videoTimeOffset:self.avPlayer.currentPlaybackTime];
                     break;
                 }

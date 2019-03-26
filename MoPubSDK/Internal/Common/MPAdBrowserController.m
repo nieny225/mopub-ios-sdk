@@ -1,9 +1,9 @@
 //
 //  MPAdBrowserController.m
-//  MoPub
 //
-//  Created by Nafis Jamal on 1/19/11.
-//  Copyright 2011 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdBrowserController.h"
@@ -285,7 +285,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     // Ignore "Frame Load Interrupted" errors after navigating to iTunes or the App Store.
     if (error.code == 102 && [error.domain isEqual:@"WebKitErrorDomain"]) return;
 
-    MPLogError(@"Ad browser (%p) experienced an error: %@.", self, [error localizedDescription]);
+    MPLogEvent([MPLogEvent error:error message:nil]);
 }
 
 #pragma mark -

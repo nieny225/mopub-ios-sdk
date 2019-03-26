@@ -1,8 +1,9 @@
 //
 //  MPPrivateRewardedVideoCustomEventDelegateHandler.m
-//  MoPubSDK
 //
-//  Copyright © 2016 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPPrivateRewardedVideoCustomEventDelegateHandler.h"
@@ -84,11 +85,11 @@
 }
 
 - (NSString *)adUnitId {
-    return self.adUnitId;
+    return _adUnitId;
 }
 
 - (MPAdConfiguration *)configuration {
-    return self.adConfiguration;
+    return _adConfiguration;
 }
 
 @end

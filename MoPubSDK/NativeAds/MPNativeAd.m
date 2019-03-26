@@ -1,6 +1,9 @@
 //
 //  MPNativeAd.m
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativeAd+Internal.h"
@@ -178,7 +181,7 @@
     } else {
         // If this method is called, that means that the backing adapter should implement -displayContentForURL:rootViewController:completion:.
         // If it doesn't, we'll log a warning.
-        MPLogWarn(@"Cannot display native ad content. -displayContentForURL:rootViewController:completion: not implemented by native ad adapter: %@", [self.adAdapter class]);
+        MPLogInfo(@"Cannot display native ad content. -displayContentForURL:rootViewController:completion: not implemented by native ad adapter: %@", [self.adAdapter class]);
     }
 }
 
@@ -217,11 +220,13 @@
 
 - (void)nativeAdDidClick:(id<MPNativeAdAdapter>)adAdapter
 {
+    MPLogAdEvent(MPLogEvent.adTapped, self.adIdentifier);
     [self trackClick];
 }
 
 - (void)nativeAdWillPresentModalForAdapter:(id<MPNativeAdAdapter>)adapter
 {
+    MPLogAdEvent(MPLogEvent.adWillPresentModal, self.adIdentifier);
     if ([self.delegate respondsToSelector:@selector(willPresentModalForNativeAd:)]) {
         [self.delegate willPresentModalForNativeAd:self];
     }
@@ -229,6 +234,7 @@
 
 - (void)nativeAdDidDismissModalForAdapter:(id<MPNativeAdAdapter>)adapter
 {
+    MPLogAdEvent(MPLogEvent.adDidDismissModal, self.adIdentifier);
     if ([self.delegate respondsToSelector:@selector(didDismissModalForNativeAd:)]) {
         [self.delegate didDismissModalForNativeAd:self];
     }
@@ -236,6 +242,7 @@
 
 - (void)nativeAdWillLeaveApplicationFromAdapter:(id<MPNativeAdAdapter>)adapter
 {
+    MPLogAdEvent(MPLogEvent.adWillLeaveApplication, self.adIdentifier);
     if ([self.delegate respondsToSelector:@selector(willLeaveApplicationFromNativeAd:)]) {
         [self.delegate willLeaveApplicationFromNativeAd:self];
     }

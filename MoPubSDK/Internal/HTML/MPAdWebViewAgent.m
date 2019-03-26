@@ -1,8 +1,9 @@
 //
 //  MPAdWebViewAgent.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdWebViewAgent.h"
@@ -131,7 +132,7 @@
     // Ignore server configuration size for interstitials. At this point our web view
     // is sized correctly for the device's screen. Currently the server sends down values for a 3.5in
     // screen, and they do not size correctly on a 4in screen.
-    if (configuration.adType != MPAdTypeInterstitial) {
+    if (configuration.adType != MPAdTypeFullscreen) {
         if ([configuration hasPreferredSize]) {
             CGRect frame = self.view.frame;
             frame.size.width = configuration.preferredSize.width;
@@ -266,7 +267,7 @@
             [self.delegate adDidFailToLoadAd:self.view];
             break;
         default:
-            MPLogWarn(@"MPAdWebView - unsupported MoPub URL: %@", [URL absoluteString]);
+            MPLogInfo(@"MPAdWebView - unsupported MoPub URL: %@", [URL absoluteString]);
             break;
     }
 }
@@ -318,7 +319,7 @@
 
 - (BOOL)isInterstitialAd
 {
-    return (self.configuration.adType == MPAdTypeInterstitial);
+    return (self.configuration.adType == MPAdTypeFullscreen);
 }
 
 - (void)initAdAlertManager

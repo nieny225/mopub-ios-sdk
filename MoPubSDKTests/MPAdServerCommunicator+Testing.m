@@ -1,8 +1,9 @@
 //
 //  MPAdServerCommunicator+Testing.m
-//  MoPubSDKTests
 //
-//  Copyright © 2017 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdServerCommunicator+Testing.h"
@@ -12,6 +13,7 @@
 
 @implementation MPAdServerCommunicator (Testing)
 @dynamic loading;
+@dynamic isRateLimited;
 @end
 
 #pragma clang diagnostic pop

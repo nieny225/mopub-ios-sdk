@@ -1,8 +1,9 @@
 //
 //  MPURLResolver.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <WebKit/WebKit.h>
@@ -256,7 +257,7 @@ static NSString * const kRedirectURLQueryStringKey = @"r";
     NSStringEncoding encoding = NSUTF8StringEncoding;
 
     if (![contentType length]) {
-        MPLogWarn(@"Attempting to set string encoding from nil %@", kMoPubHTTPHeaderContentType);
+        MPLogInfo(@"Attempting to set string encoding from nil %@", kMoPubHTTPHeaderContentType);
         return encoding;
     }
 

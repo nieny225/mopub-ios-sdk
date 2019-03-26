@@ -1,8 +1,9 @@
 //
 //  MPAdServerKeys.m
-//  MoPubSDK
 //
-//  Copyright © 2018 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdServerKeys.h"
@@ -36,10 +37,16 @@ NSString * const kViewabilityStatusKey             = @"vv";
 NSString * const kKeywordsKey                      = @"q";
 NSString * const kUserDataKeywordsKey              = @"user_data_q";
 NSString * const kAdvancedBiddingKey               = @"abt";
+NSString * const kNetworkAdaptersKey               = @"adapters";
 NSString * const kLocationLatitudeLongitudeKey     = @"ll";
 NSString * const kLocationHorizontalAccuracy       = @"lla";
 NSString * const kLocationIsFromSDK                = @"llsdk";
 NSString * const kLocationLastUpdatedMilliseconds  = @"llf";
+NSString * const kBackoffMsKey                     = @"backoff_ms";
+NSString * const kBackoffReasonKey                 = @"backoff_reason";
+
+#pragma mark - Ad Server Response Keys
+NSString * const kEnableDebugLogging               = @"enable_debug_logging";
 
 #pragma mark - Open Endpoint Request Keys
 NSString * const kOpenEndpointSessionTrackingKey   = @"st";
@@ -85,3 +92,11 @@ NSString * const kLanguageKey                      = @"language";
 #pragma mark - Consent Dialog Endpoint: Response Keys
 
 NSString * const kDialogHTMLKey                    = @"dialog_html";
+
+#pragma mark - Rewarded Keys
+
+NSString * const kCustomerIdKey                    = @"customer_id";
+NSString * const kRewardedCurrencyNameKey          = @"rcn";
+NSString * const kRewardedCurrencyAmountKey        = @"rca";
+NSString * const kRewardedCustomEventNameKey       = @"cec";
+NSString * const kRewardedCustomDataKey            = @"rcd";

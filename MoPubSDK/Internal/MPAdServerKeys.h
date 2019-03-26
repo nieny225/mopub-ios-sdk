@@ -1,8 +1,9 @@
 //
 //  MPAdServerKeys.h
-//  MoPubSDK
 //
-//  Copyright © 2018 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -36,10 +37,16 @@ extern NSString * const kViewabilityStatusKey;
 extern NSString * const kKeywordsKey;
 extern NSString * const kUserDataKeywordsKey;
 extern NSString * const kAdvancedBiddingKey;
+extern NSString * const kNetworkAdaptersKey;
 extern NSString * const kLocationLatitudeLongitudeKey;
 extern NSString * const kLocationHorizontalAccuracy;
 extern NSString * const kLocationIsFromSDK;
 extern NSString * const kLocationLastUpdatedMilliseconds;
+extern NSString * const kBackoffMsKey;
+extern NSString * const kBackoffReasonKey;
+
+#pragma mark - Ad Server Response Keys
+extern NSString * const kEnableDebugLogging;
 
 #pragma mark - Open Endpoint Request Keys
 extern NSString * const kOpenEndpointSessionTrackingKey;
@@ -85,3 +92,11 @@ extern NSString * const kLanguageKey;
 #pragma mark - Consent Dialog Endpoint: Response Keys
 
 extern NSString * const kDialogHTMLKey;
+
+#pragma mark - Rewarded Keys
+
+extern NSString * const kCustomerIdKey;
+extern NSString * const kRewardedCurrencyNameKey;
+extern NSString * const kRewardedCurrencyAmountKey;
+extern NSString * const kRewardedCustomEventNameKey;
+extern NSString * const kRewardedCustomDataKey;

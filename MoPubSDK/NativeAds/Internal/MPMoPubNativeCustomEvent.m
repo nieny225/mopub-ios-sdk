@@ -1,14 +1,16 @@
 //
 //  MPMoPubNativeCustomEvent.m
-//  MoPubSDK
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPMoPubNativeCustomEvent.h"
 #import "MPMoPubNativeAdAdapter.h"
 #import "MPNativeAd+Internal.h"
 #import "MPNativeAdError.h"
+#import "MPNativeAdConstants.h"
 #import "MPLogging.h"
 #import "MPNativeAdUtils.h"
 
@@ -16,35 +18,44 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
+    NSString * adUnitId = info[kNativeAdUnitId];
+    MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass(self.class) dspCreativeId:info[kNativeAdDspCreativeId] dspName:info[kNativeAdDspName]], adUnitId);
+
     MPMoPubNativeAdAdapter *adAdapter = [[MPMoPubNativeAdAdapter alloc] initWithAdProperties:[info mutableCopy]];
-    
+
     if (adAdapter.properties) {
         MPNativeAd *interfaceAd = [[MPNativeAd alloc] initWithAdAdapter:adAdapter];
         [interfaceAd.impressionTrackerURLs addObjectsFromArray:adAdapter.impressionTrackerURLs];
         [interfaceAd.clickTrackerURLs addObjectsFromArray:adAdapter.clickTrackerURLs];
-        
+
         // Get the image urls so we can download them prior to returning the ad.
         NSMutableArray *imageURLs = [NSMutableArray array];
         for (NSString *key in [info allKeys]) {
             if ([[key lowercaseString] hasSuffix:@"image"] && [[info objectForKey:key] isKindOfClass:[NSString class]]) {
                 if (![MPNativeAdUtils addURLString:[info objectForKey:key] toURLArray:imageURLs]) {
-                    [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:MPNativeAdNSErrorForInvalidImageURL()];
+                    NSError * error = MPNativeAdNSErrorForInvalidImageURL();
+                    MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass(self.class) error:error], adUnitId);
+                    [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
                 }
             }
         }
-        
+
         [super precacheImagesWithURLs:imageURLs completionBlock:^(NSArray *errors) {
             if (errors) {
-                MPLogDebug(@"%@", errors);
-                [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:MPNativeAdNSErrorForImageDownloadFailure()];
+                NSError * error = MPNativeAdNSErrorForImageDownloadFailure();
+                MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass(self.class) error:error], adUnitId);
+                [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
             } else {
+                MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass(self.class)], adUnitId);
                 [self.delegate nativeCustomEvent:self didLoadAd:interfaceAd];
             }
         }];
     } else {
-        [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:MPNativeAdNSErrorForInvalidAdServerResponse(nil)];
+        NSError * error = MPNativeAdNSErrorForInvalidAdServerResponse(nil);
+        MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass(self.class) error:error], adUnitId);
+        [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
     }
-    
+
 }
 
 @end
